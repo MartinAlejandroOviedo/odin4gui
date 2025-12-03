@@ -1,0 +1,2 @@
+pyside6
+# Outras dependências que pode precisar para empacotamento como 'pyinstaller'
