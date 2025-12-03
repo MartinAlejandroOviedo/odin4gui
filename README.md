@@ -21,4 +21,4 @@ Interface — by me
 
 ## License
 
-This project is licensed under the MIT License
+This project is licensed under the [MIT License](https://github.com/Llucs/odin4gui/blob/main/LICENSE)
