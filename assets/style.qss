@@ -1,0 +1,109 @@
+* {
+    font-family: "Inter", "Roboto", sans-serif;
+    color: #EAEAEA;
+}
+
+/* ----- WINDOW ----- */
+QWidget {
+    background-color: #121212;
+}
+
+/* ----- GROUP BOX ----- */
+QGroupBox {
+    background-color: #1E1E1E;
+    border: 1px solid #2A2A2A;
+    border-radius: 12px;
+    margin-top: 20px;
+    padding: 15px;
+    font-weight: bold;
+}
+
+/* ----- LABELS ----- */
+QLabel {
+    font-size: 14px;
+    color: #EAEAEA;
+}
+
+/* ----- LINE EDITS ----- */
+QLineEdit {
+    background-color: #1A1A1A;
+    border: 1px solid #2B2B2B;
+    border-radius: 8px;
+    padding: 6px;
+    font-size: 14px;
+}
+
+QLineEdit:focus {
+    border: 1px solid #4A90E2;
+    background-color: #1F1F1F;
+}
+
+/* ----- BUTTONS ----- */
+QPushButton {
+    background-color: #1E1E1E;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 15px;
+    border: 1px solid #2A2A2A;
+}
+
+/* Hover suave */
+QPushButton:hover {
+    background-color: #2A2A2A;
+}
+
+/* Botão principal */
+#primaryButton {
+    background-color: #4A90E2;
+    color: white;
+    border: none;
+}
+
+#primaryButton:hover {
+    background-color: #5AA0F3;
+}
+
+/* ----- COMBO BOX ----- */
+QComboBox {
+    background-color: #1A1A1A;
+    border: 1px solid #2B2B2B;
+    border-radius: 8px;
+    padding: 6px;
+    font-size: 14px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #1A1A1A;
+    border-radius: 8px;
+    selection-background-color: #4A90E2;
+}
+
+/* ----- LOG VIEW ----- */
+QTextEdit {
+    background-color: #181818; /* mais claro */
+    border: 1px solid #2A2A2A;
+    border-radius: 10px;
+    padding: 8px;
+    font-family: "JetBrains Mono", monospace;
+}
+
+/* ----- CHECKBOX ----- */
+QCheckBox {
+    spacing: 10px;
+}
+
+/* ----- SCROLL BAR ----- */
+QScrollBar:vertical {
+    background: #1A1A1A;
+    width: 10px;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:vertical {
+    background: #4A90E2;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #5AA0F3;
+}
