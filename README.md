@@ -24,6 +24,13 @@ First, go to the Releases tab and download the latest executable "odin4gui" and 
 Another way to run it is by granting permission in the terminal and executing with `sudo`.
 
 
+## Notice
+
+> [!CAUTION]
+
+> This tool is new and may have errors or bugs, so please don't blame me if there are any errors. If you find anything, feel free to submit an issue; it would be very helpful.
+
+
 ## Sources
 
 Engine — [odin4 by Adrilaw](https://github.com/Adrilaw/OdinV4)
