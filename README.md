@@ -7,7 +7,7 @@ Native Linux GUI for the odin4 Samsung flashing tool
 ![GUI](https://img.shields.io/badge/GUI-PySide6-41CD52)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-### You are on the testing branch; the versions here may be unstable. Before becoming stable versions, they go through some adjustments
+*You are on the testing branch; the versions here may be unstable. Before becoming stable versions, they go through some adjustments*
 
 ## How does it work?
 
