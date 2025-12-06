@@ -27,7 +27,7 @@ Another way to run it is by granting permission in the terminal and executing wi
 
 ## Images
 
-![Print](images/image.png)
+![Print](images/image1.png)
 
 
 ## Notice
