@@ -1,2 +1,3 @@
 pyside6
+pytest
 # Outras dependências que pode precisar para empacotamento como 'pyinstaller'

@@ -4,6 +4,35 @@ import subprocess
 # REMOVER: from runner import start_flash_process
 from parser import parse_odin_output
 
+
+class FlashService:
+    """Wrapper para execução do odin4 em subprocesso."""
+
+    def __init__(self, cmd_list: list):
+        self.cmd = cmd_list
+        self.process = None
+
+    def start(self):
+        self.process = subprocess.Popen(
+            self.cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1,
+        )
+        return self.process
+
+    def stop(self):
+        if self.process is not None and self.process.poll() is None:
+            try:
+                self.process.terminate()
+                self.process.wait(timeout=3)
+            except Exception:
+                try:
+                    self.process.kill()
+                except Exception:
+                    pass
+
 class FlashThread(QThread):
     # Sinais para comunicar com a UI
     log_output = Signal(dict) # Envia o dicionário parsed_data
@@ -12,21 +41,14 @@ class FlashThread(QThread):
     def __init__(self, cmd_list: list):
         super().__init__()
         self.cmd = cmd_list # A thread agora guarda o comando completo
-        self.process = None
+        self.service = FlashService(cmd_list)
         self._stop_requested = False
         
     def run(self):
         print(f"Executando: {' '.join(self.cmd)}")
         try:
-            # Novo bloco: Inicia o processo de forma não-bloqueante aqui mesmo!
             # Unifica stderr em stdout para evitar deadlocks por leitura bloqueante.
-            self.process = subprocess.Popen(
-                self.cmd,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-                bufsize=1,
-            )
+            self.process = self.service.start()
         except FileNotFoundError:
             self.log_output.emit(parse_odin_output("ERROR: Binario odin4 no encontrado en el PATH o en el paquete."))
             self.flash_finished.emit("FAIL")
@@ -56,12 +78,4 @@ class FlashThread(QThread):
     def stop(self):
         """Solicita o encerramento do processo."""
         self._stop_requested = True
-        if self.process is not None and self.process.poll() is None:
-            try:
-                self.process.terminate()
-                self.process.wait(timeout=3)
-            except Exception:
-                try:
-                    self.process.kill()
-                except Exception:
-                    pass
+        self.service.stop()

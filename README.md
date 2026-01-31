@@ -24,6 +24,28 @@ First, go to the Releases tab and download the latest executable "odin4gui" and 
 
 Another way to run it is by granting permission in the terminal and executing with `sudo`.
 
+## Development (local)
+
+1) Create venv and install dependencies
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+2) Run the GUI
+
+```bash
+python main.py
+```
+
+3) Run tests
+
+```bash
+pytest -q
+```
+
 ## Images
 
 ![Print](images/image.png)
