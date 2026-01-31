@@ -1,18 +1,17 @@
 # runner.py
 import subprocess
-import os
 import sys
+from pathlib import Path
+from constants import ERROR_PREFIX
 
 # --- LÓGICA PARA SUPORTAR PYINSTALLER ---
 def get_odin_path():
-    """Determina o caminho do binário odin4, seja em desenvolvimento ou após o empacotamento."""
+    """Determina o caminho do binário odin4 em /bin, seja em desenvolvimento ou após o empacotamento."""
     if getattr(sys, 'frozen', False) and hasattr(sys, '_MEIPASS'):
-        # Estamos rodando como um binário PyInstaller.
-        # O odin4 foi adicionado ao bundle e está no diretório temporário _MEIPASS.
-        return os.path.join(sys._MEIPASS, "odin4")
+        base_dir = Path(sys._MEIPASS)
     else:
-        # Estamos rodando em ambiente de desenvolvimento (diretório atual).
-        return "odin4"
+        base_dir = Path(__file__).resolve().parent
+    return str(base_dir / "bin" / "odin4")
 
 ODIN_BIN_PATH = get_odin_path()
 # --- FIM DA LÓGICA PYINSTALLER ---
@@ -59,12 +58,12 @@ def run_device_list_command() -> list:
         return devices
         
     except FileNotFoundError:
-        return ["ERRO: Binário odin4 não encontrado."]
+        return [f"{ERROR_PREFIX}: Binario odin4 no encontrado."]
     except subprocess.CalledProcessError as e:
         # O odin4 pode retornar um código de erro se nenhum dispositivo for encontrado
         # Captura o stderr para log
-        return [f"ERRO ao listar (Código {e.returncode}): {e.stderr.strip() or 'Verifique permissões udev.'}"]
+        return [f"{ERROR_PREFIX} al listar (Código {e.returncode}): {e.stderr.strip() or 'Verifique permisos udev.'}"]
     except subprocess.TimeoutExpired:
-        return ["ERRO: A varredura de dispositivos expirou (timeout)."]
+        return [f"{ERROR_PREFIX}: La búsqueda de dispositivos expiró (timeout)."]
     except Exception as e:
-        return [f"ERRO inesperado: {type(e).__name__}: {str(e)}"]
+        return [f"{ERROR_PREFIX} inesperado: {type(e).__name__}: {str(e)}"]

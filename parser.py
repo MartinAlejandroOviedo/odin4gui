@@ -42,13 +42,15 @@ def format_log(parsed_data: dict) -> str:
     Formata o log para exibição na QTextEdit (pode adicionar HTML para cor)
     """
     msg = parsed_data['message']
+    timestamp = datetime.now().strftime("%H:%M:%S")
     
     if parsed_data['type'] == 'progress':
-        return f"[PROCESSO {parsed_data['percentage']}%] {msg}"
+        return f"[{timestamp}] [PROCESO {parsed_data['percentage']}%] {msg}"
     if parsed_data['type'] == 'status' and parsed_data['level'] == 'success':
-        return f"\n*** SUCESSO ***: {msg}\n"
+        return f"\n[{timestamp}] *** ÉXITO ***: {msg}\n"
     if parsed_data['type'] == 'status' and parsed_data['level'] == 'error':
-        return f"\n!!! ERRO CRÍTICO !!!: {msg}\n"
+        return f"\n[{timestamp}] !!! ERROR CRÍTICO !!!: {msg}\n"
         
-    return f" > {msg}"
+    return f"[{timestamp}] > {msg}"
     
+from datetime import datetime

@@ -5,16 +5,17 @@ from PySide6.QtWidgets import (
     QComboBox, QFileDialog
 )
 from PySide6.QtCore import Qt
+from constants import UI_TEXT, DETECTING_DEVICES_TEXT
 
 class OdinMainWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Odin4 Linux GUI - Flashing Tool")
+        self.setWindowTitle(UI_TEXT["window_title"])
         self.setGeometry(100, 100, 800, 600)
         self.layout = QVBoxLayout(self)
         
         # --- Painel de Arquivos (BL, AP, CP, CSC) ---
-        file_group = QGroupBox("Arquivos de Firmware (.tar / .tar.md5)")
+        file_group = QGroupBox(UI_TEXT["firmware_group"])
         file_layout = QVBoxLayout()
 
         self.file_fields = {
@@ -27,7 +28,7 @@ class OdinMainWindow(QWidget):
         for label, line_edit in self.file_fields.items():
             h_layout = QHBoxLayout()
             h_layout.addWidget(QLabel(f"{label}:"))
-            line_edit.setPlaceholderText(f"Selecione o arquivo {label}...")
+            line_edit.setPlaceholderText(f"Seleccione el archivo {label}...")
             h_layout.addWidget(line_edit)
             
             btn = QPushButton("...")
@@ -44,11 +45,11 @@ class OdinMainWindow(QWidget):
         control_layout = QHBoxLayout()
         
         # Opções
-        options_group = QGroupBox("Opções")
+        options_group = QGroupBox(UI_TEXT["options_group"])
         options_layout = QVBoxLayout()
-        self.nand_erase_checkbox = QCheckBox("NAND Erase (Full Wipe)")
-        self.home_validation_checkbox = QCheckBox("Home Binary Validation (-V)")
-        self.reboot_checkbox = QCheckBox("Auto Reboot")
+        self.nand_erase_checkbox = QCheckBox("Borrado NAND (Borrado completo)")
+        self.home_validation_checkbox = QCheckBox("Validación binaria Home (-V)")
+        self.reboot_checkbox = QCheckBox("Reinicio automático")
         
         options_layout.addWidget(self.nand_erase_checkbox)
         options_layout.addWidget(self.home_validation_checkbox)
@@ -57,12 +58,12 @@ class OdinMainWindow(QWidget):
         control_layout.addWidget(options_group)
         
         # Dispositivos
-        device_group = QGroupBox("Dispositivo")
+        device_group = QGroupBox(UI_TEXT["device_group"])
         device_layout = QVBoxLayout()
         self.device_combo = QComboBox()
-        self.device_combo.addItem("Detectando dispositivos...")
+        self.device_combo.addItem(DETECTING_DEVICES_TEXT)
         self.device_combo.setEnabled(False)
-        self.refresh_btn = QPushButton("Atualizar Lista")
+        self.refresh_btn = QPushButton(UI_TEXT["refresh_devices"])
         
         device_layout.addWidget(self.device_combo)
         device_layout.addWidget(self.refresh_btn)
@@ -71,13 +72,19 @@ class OdinMainWindow(QWidget):
         
         self.layout.addLayout(control_layout)
 
-        # --- Botão Iniciar Flash ---
-        self.start_btn = QPushButton("INICIAR FLASH")
+        # --- Botões de Controle ---
+        control_buttons = QHBoxLayout()
+        self.start_btn = QPushButton(UI_TEXT["start_flash"])
         self.start_btn.setStyleSheet("font-size: 18pt; padding: 10px; background-color: #4CAF50; color: white;")
-        self.layout.addWidget(self.start_btn)
+        self.stop_btn = QPushButton(UI_TEXT["stop_flash"])
+        self.stop_btn.setStyleSheet("font-size: 18pt; padding: 10px; background-color: #E53935; color: white;")
+        self.stop_btn.setEnabled(False)
+        control_buttons.addWidget(self.start_btn)
+        control_buttons.addWidget(self.stop_btn)
+        self.layout.addLayout(control_buttons)
         
         # --- Painel de Logs ---
-        log_group = QGroupBox("Logs / Saída do Odin4")
+        log_group = QGroupBox(UI_TEXT["logs_group"])
         log_layout = QVBoxLayout()
         self.log_text = QTextEdit()
         self.log_text.setReadOnly(True)
@@ -85,13 +92,17 @@ class OdinMainWindow(QWidget):
         log_group.setLayout(log_layout)
         self.layout.addWidget(log_group)
         
-        self.status_label = QLabel("Status: Pronto.")
+        self.status_label = QLabel(UI_TEXT["status_ready"])
         self.layout.addWidget(self.status_label)
 
     # Função placeholder para seleção de arquivos
     def select_file(self, part_key):
-        file_path, _ = QFileDialog.getOpenFileName(self, f"Selecionar Arquivo {part_key}", 
-                                                   "", "Firmware Files (*.tar *.tar.md5);;All Files (*)")
+        file_path, _ = QFileDialog.getOpenFileName(
+            self,
+            UI_TEXT["select_file_title"].format(part_key=part_key),
+            "",
+            UI_TEXT["select_file_filter"],
+        )
         if file_path:
             self.file_fields[part_key].setText(file_path)
             
